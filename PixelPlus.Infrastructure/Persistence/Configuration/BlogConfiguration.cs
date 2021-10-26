@@ -10,7 +10,7 @@ namespace PixelPlus.Infrastructure.Persistence.Configuration
         {
             builder.Property(p => p.Title).HasMaxLength(20).IsRequired();
             builder.Property(p => p.Content).HasMaxLength(20).IsRequired();
-            builder.HasKey("Id");
+            builder.HasKey(p => p.Id);
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using PixelPlus.Domain.Blog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace PixelPlus.Domain.Category
 {
@@ -21,6 +16,12 @@ namespace PixelPlus.Domain.Category
 
         public string Name { get; set; }
 
-        public virtual List<BlogCategoryRecord> Blogs { get; set; }
+        public virtual List<BlogCategory> Blogs { get; set; }
+
+        public void Update(string name)
+        {
+            Name = name;
+            SetAsModified();
+        }
     }
 }

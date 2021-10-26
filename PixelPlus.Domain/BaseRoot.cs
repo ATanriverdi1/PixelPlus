@@ -14,16 +14,16 @@ namespace PixelPlus.Domain
 
         protected void SetAsCreated()
         {
-            var date = DateTime.UtcNow;
+            var date = DateTime.Now;
             CreatedDate = date;
             ModifiedDate = date;
+            Id = Guid.NewGuid();
         }
 
         protected void SetAsModified()
         {
-            var date = DateTime.UtcNow;
+            var date = DateTime.Now;
             ModifiedDate = date;
-            Id = Guid.NewGuid();
         }
     }
 }

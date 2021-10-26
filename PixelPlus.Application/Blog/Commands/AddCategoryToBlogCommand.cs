@@ -1,12 +1,12 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+using PixelPlus.Application.Blog.Enums;
 using PixelPlus.Application.Blog.Queries;
 using PixelPlus.Application.Category.Queries;
 using PixelPlus.Application.Interfaces;
+using PixelPlus.Domain;
+using PixelPlus.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,10 +36,14 @@ namespace PixelPlus.Application.Blog.Commands
 
             public async Task<Unit> Handle(AddCategoryToBlogCommand request, CancellationToken cancellationToken)
             {
-                var category = await _mediator.Send(new CategoryByIdQuery(request.CategoryId), cancellationToken);
-                var blog = await _mediator.Send(new BlogByIdQuery(request.Id), cancellationToken);
-                var blogCategory = blog.AddCategory(category.Id);
-                _context.BlogCategories.Update(blogCategory);
+                var blogCategoryGet = await _mediator.Send(new BlogByIdAndCategoryIdQuery(request.Id, request.CategoryId), cancellationToken);
+
+                if(blogCategoryGet != null)
+                    throw new BusinessException(BlogApplicationException.ThereIsAlreadyACategoryExists,
+                        new KeyValuePair<string, string>("categoryId", blogCategoryGet.CategoryAggregateId.ToString()));
+
+                var blogCategory = new BlogCategory(request.Id, request.CategoryId);
+                await _context.BlogCategories.AddAsync(blogCategory, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
                 return Unit.Value;
             }

@@ -41,9 +41,33 @@ namespace PixelPlus.Api.Controllers
             return CreatedAtAction("Create", blog);
         }
 
+        [HttpPut("{blogId}")]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> Update([FromRoute] Guid blogId, [FromBody] UpdateBlogRequest request)
+        {
+            await _mediator.Send(request.ToCommand(blogId));
+            return NoContent();
+        }
+
+        [HttpDelete("{blogId}")]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> Delete([FromRoute] Guid blogId)
+        {
+            await _mediator.Send(new RemoveBlogCommand(blogId));
+            return NoContent();
+        }
+
         [HttpPost("{blogId}/categories")]
         [ProducesResponseType(204)]
         public async Task<IActionResult> AddCategory([FromRoute] Guid blogId, [FromBody] AddCategoryToBlogRequest request)
+        {
+            await _mediator.Send(request.ToCommand(blogId));
+            return NoContent();
+        }
+
+        [HttpDelete("{blogId}/categories")]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> RemoveCategory([FromRoute] Guid blogId, [FromBody] RemoveCategoryFromBlogRequest request)
         {
             await _mediator.Send(request.ToCommand(blogId));
             return NoContent();

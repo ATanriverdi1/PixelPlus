@@ -40,30 +40,30 @@ namespace PixelPlus.Infrastructure.Persistence.Migrations
                 name: "BlogCategories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BlogId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BlogAggregateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryAggregateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlogCategories", x => new { x.BlogId, x.CategoryId });
+                    table.PrimaryKey("PK_BlogCategories", x => new { x.BlogAggregateId, x.CategoryAggregateId });
                     table.ForeignKey(
-                        name: "FK_BlogCategories_Blogs_BlogId",
-                        column: x => x.BlogId,
+                        name: "FK_BlogCategories_Blogs_BlogAggregateId",
+                        column: x => x.BlogAggregateId,
                         principalTable: "Blogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BlogCategories_Categories_CategoryId",
-                        column: x => x.CategoryId,
+                        name: "FK_BlogCategories_Categories_CategoryAggregateId",
+                        column: x => x.CategoryAggregateId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogCategories_CategoryId",
+                name: "IX_BlogCategories_CategoryAggregateId",
                 table: "BlogCategories",
-                column: "CategoryId");
+                column: "CategoryAggregateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Name",

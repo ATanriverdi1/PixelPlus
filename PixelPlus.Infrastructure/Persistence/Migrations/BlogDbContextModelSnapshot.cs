@@ -46,17 +46,17 @@ namespace PixelPlus.Infrastructure.Persistence.Migrations
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("PixelPlus.Domain.Blog.BlogCategoryRecord", b =>
+            modelBuilder.Entity("PixelPlus.Domain.BlogCategory", b =>
                 {
-                    b.Property<Guid>("BlogId")
+                    b.Property<Guid>("BlogAggregateId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid>("CategoryAggregateId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("BlogId", "CategoryId");
+                    b.HasKey("BlogAggregateId", "CategoryAggregateId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryAggregateId");
 
                     b.ToTable("BlogCategories");
                 });
@@ -86,17 +86,17 @@ namespace PixelPlus.Infrastructure.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("PixelPlus.Domain.Blog.BlogCategoryRecord", b =>
+            modelBuilder.Entity("PixelPlus.Domain.BlogCategory", b =>
                 {
                     b.HasOne("PixelPlus.Domain.Blog.BlogAggregate", "Blog")
                         .WithMany("Categories")
-                        .HasForeignKey("BlogId")
+                        .HasForeignKey("BlogAggregateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PixelPlus.Domain.Category.CategoryAggregate", "Category")
                         .WithMany("Blogs")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryAggregateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

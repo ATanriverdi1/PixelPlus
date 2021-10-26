@@ -31,9 +31,9 @@ namespace PixelPlus.Application.Blog.Queries
             public async Task<List<BlogAggregate>> Handle(BlogsByCategoryIdQuery request, CancellationToken cancellationToken)
             {
                 if (!request.CategoryId.HasValue)
-                    return await _context.Blogs.ToListAsync();
+                    return await _context.Blogs.ToListAsync(cancellationToken);
 
-                var ids = await _context.BlogCategories.Where(p => p.CategoryId == request.CategoryId).Select(p => p.BlogId).ToListAsync(cancellationToken);
+                var ids = await _context.BlogCategories.Where(p => p.CategoryAggregateId == request.CategoryId).Select(p => p.BlogAggregateId).ToListAsync(cancellationToken);
 
                 if (ids == null || ids.Count == 0) return null;
 

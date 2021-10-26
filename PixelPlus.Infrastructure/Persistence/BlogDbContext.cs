@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PixelPlus.Application.Interfaces;
+using PixelPlus.Domain;
 using PixelPlus.Domain.Blog;
 using PixelPlus.Domain.Category;
-using System;
 
 namespace PixelPlus.Infrastructure.Persistence
 {
@@ -14,7 +14,7 @@ namespace PixelPlus.Infrastructure.Persistence
         }
 
         public DbSet<BlogAggregate> Blogs { get; set; }
-        public DbSet<BlogCategoryRecord> BlogCategories { get; set; }
+        public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<CategoryAggregate> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
